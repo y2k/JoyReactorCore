@@ -1,4 +1,4 @@
-package org.joyreactor.core
+package cc.joyreactor.core
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -8,12 +8,10 @@ import java.net.URL
  * Created by y2k on 31/03/2017.
  **/
 
-fun main(args: Array<String>) {
-    val posts = Environment().getPosts("")
-    println("Posts = $posts")
-}
+fun main(args: Array<String>) =
+    println("Posts = ${Environment().getPosts()}")
 
-private fun Environment.getPosts(tagId: String): List<Post> =
+fun Environment.getPosts(tagId: String = ""): List<Post> =
     makeTagsPath(tagId, null)
         .let { downloadDocument(it) }
         .let(::parsePostsForTag)

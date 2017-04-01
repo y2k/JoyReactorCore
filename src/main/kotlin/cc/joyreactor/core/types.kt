@@ -1,4 +1,4 @@
-package org.joyreactor.core
+package cc.joyreactor.core
 
 /**
  * Created by y2k on 31/03/2017.

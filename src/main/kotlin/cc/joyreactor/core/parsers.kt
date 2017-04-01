@@ -1,7 +1,8 @@
-package org.joyreactor.core
+package cc.joyreactor.core
 
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+import java.util.regex.Pattern
 
 internal fun parsePostsForTag(document: Document): List<Post> =
     document
@@ -43,7 +44,7 @@ private fun normalizeUrl(link: String): String =
         .replace("(/full/).+(-\\d+\\.)".toRegex(), "$1$2")
         .replace("(/post/).+(-\\d+\\.)".toRegex(), "$1$2")
 
-fun parseAttachments(document: Element): List<Attachment> {
+private fun parseAttachments(document: Element): List<Attachment> {
     return document
         .first("div.post_top")
         .let {
@@ -54,7 +55,7 @@ fun parseAttachments(document: Element): List<Attachment> {
         .map(::Attachment)
 }
 
-fun Element.first(cssQuery: String): Element {
+private fun Element.first(cssQuery: String): Element {
     return select(cssQuery).first() ?: throw Exception("Can't find DOM for '$cssQuery'")
 }
 
@@ -90,7 +91,7 @@ private fun parseYoutubeThumbnails(element: Element): List<ImageRef> {
         }
 }
 
-private val SRC_PATTERN = java.util.regex.Pattern.compile("/embed/([^?]+)")
+private val SRC_PATTERN = Pattern.compile("/embed/([^?]+)")
 private fun parseVideoThumbnails(element: Element): List<ImageRef> {
     return element
         .select("video[poster]")

@@ -1,4 +1,4 @@
-group 'org.joyreactor'
+group 'cc.joyreactor'
 version '1.0-SNAPSHOT'
 
 buildscript {
