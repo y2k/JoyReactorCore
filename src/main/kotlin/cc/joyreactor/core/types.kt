@@ -4,6 +4,8 @@ package cc.joyreactor.core
  * Created by y2k on 31/03/2017.
  **/
 
+class Posts(val posts: List<Post>, val nextPage: Int?)
+
 data class Post(
     val tags: List<String>,
     val id: Long,

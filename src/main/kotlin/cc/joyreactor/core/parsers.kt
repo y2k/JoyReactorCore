@@ -1,10 +1,15 @@
 package cc.joyreactor.core
 
-import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.util.regex.Pattern
 
-internal fun parsePostsForTag(document: Document): List<Post> =
+internal fun parseNewPageNumber(document: Element): Int =
+    document
+        .select("a.next").first()
+        .attr("href").split('/').last()
+        .let(::findNumber).toInt()
+
+internal fun parsePostsForTag(document: Element): List<Post> =
     document
         .select("div.postContainer")
         .map(::parserSinglePost)
