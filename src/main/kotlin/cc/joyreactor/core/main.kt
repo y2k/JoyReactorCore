@@ -24,5 +24,5 @@ private fun makeTagsPath(tagId: String, page: Int?): String {
 class Environment {
 
     fun downloadDocument(url: String): Document =
-        Jsoup.parse(URL("http://joyreactor.cc$url"), 10_000)
+        Jsoup.parse(URL("http://joyreactor.cc/$url"), 10_000)
 }
