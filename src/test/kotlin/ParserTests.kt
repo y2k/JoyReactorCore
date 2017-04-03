@@ -9,11 +9,7 @@ import org.junit.Test
 class ParserTests {
 
     @Test fun `parser feed with top comment`() {
-
-        val doc = getHtml("feed_with_top_comment.html")
-
-        parsePostsForTag(doc)
-
+        parsePostsForTag(getHtml("feed_with_top_comment.html"))
     }
 }
 
