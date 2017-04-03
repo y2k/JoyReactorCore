@@ -1,6 +1,8 @@
+import cc.joyreactor.core.parsePost
 import cc.joyreactor.core.parsePostsForTag
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
@@ -8,8 +10,13 @@ import org.junit.Test
  **/
 class ParserTests {
 
-    @Test fun `parser feed with top comment`() {
+    @Test fun `parse feed with top comment`() {
         parsePostsForTag(getHtml("feed_with_top_comment.html"))
+    }
+
+    @Test fun `parse posts with 5 comments`() {
+        val post = parsePost(getHtml("post_with_5_comments.html"))
+        assertEquals(5, post.comments.size)
     }
 }
 

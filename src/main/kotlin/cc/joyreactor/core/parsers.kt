@@ -9,10 +9,16 @@ internal fun parseNewPageNumber(document: Element): Int =
         .attr("href").split('/').last()
         .let(::findNumber).toInt()
 
-internal fun parsePostsForTag(document: Element): List<Post> =
-    document
+internal fun parsePostsForTag(element: Element): List<Post> =
+    element
         .select("div.postContainer")
         .map(::parserSinglePost)
+
+internal fun parsePost(element: Element): Post {
+    return element
+        .first("div.postContainer")
+        .let(::parserSinglePost)
+}
 
 private fun parserSinglePost(body: Element): Post =
     Post(tags = parseTagsInPost(body),
@@ -110,7 +116,7 @@ private fun parseVideoThumbnails(element: Element): List<ImageRef> {
 private fun parseComments(document: Element): List<Comment> {
     val postId = findNumber(document.id())
     val comments = ArrayList<Comment>()
-    for (node in document.select("div.comment")) {
+    for (node in document.select("div.comment[parent]")) {
         val parent = node.parent()
         val parentId = if ("comment_list" == parent.className()) findNumber(parent.id()) else 0
 
