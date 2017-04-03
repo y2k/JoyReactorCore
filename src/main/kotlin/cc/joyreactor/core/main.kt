@@ -10,7 +10,7 @@ import java.net.URLEncoder
  **/
 
 fun main(args: Array<String>) {
-    val source = TagSource("1 апреля")
+    val source = TagSource("эротика")
     val posts = Environment().get(source)
     posts.print("1)")
 
