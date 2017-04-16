@@ -6,6 +6,12 @@ import java.util.*
  * Created by y2k on 31/03/2017.
  **/
 
+sealed class Source
+
+object FeaturedSource : Source()
+class TagSource(val name: String) : Source()
+class Favorite(val user: String) : Source()
+
 class Thread(
     val user: String,
     val message: String,
