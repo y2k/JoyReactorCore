@@ -1,8 +1,21 @@
 package cc.joyreactor.core
 
+import java.util.*
+
 /**
  * Created by y2k on 31/03/2017.
  **/
+
+class Thread(
+    val user: String,
+    val message: String,
+    val image: ImageRef,
+    val date: Date)
+
+class Message(
+    val isMine: Boolean,
+    val message: String,
+    val date: Date)
 
 class Posts(val posts: List<Post>, val nextPage: Int?)
 
