@@ -15,8 +15,3 @@ fun main(args: Array<String>) {
 
 private fun Posts.print(prefix: String) =
     println("$prefix page = $nextPage | data = ${posts.joinToString(separator = "\n")}")
-
-fun Environment.get(source: Source, page: Int? = null): Posts =
-    makeTagsPath(source, page)
-        .let { downloadDocument(it) }
-        .let(::getPostsWithNextPages)
