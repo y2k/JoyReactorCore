@@ -55,14 +55,13 @@ inline fun <T> try_(f: () -> T): Result<T> =
 
 typealias AsyncReader<E, T> = (E, (T) -> Unit) -> Unit
 
+fun <E, T, R> AsyncReader<E, T>.zip(next: AsyncReader<E, R>): AsyncReader<E, Pair<T, R>> =
+    bind { x -> next.fmap { y -> x to y } }
+
 fun <E, T, R> AsyncReader<E, T>.bind(x: (T) -> AsyncReader<E, R>): AsyncReader<E, R> {
     TODO()
 }
 
 fun <E, T, R> AsyncReader<E, T>.fmap(x: (T) -> R): AsyncReader<E, R> {
-    TODO()
-}
-
-fun <E, T, R> AsyncReader<E, T>.zip(x: AsyncReader<E, R>): AsyncReader<E, Pair<T, R>> {
     TODO()
 }
