@@ -9,11 +9,12 @@ import cc.joyreactor.core.UrlCreator.tagsPath
 
 fun Environment.get(source: Source, page: Int? = null): Posts =
     tagsPath(source, page)
-        .let { downloadDocument(it) }
+        .let(this::downloadDocument)
         .let(::getPostsWithNextPages)
 
 fun Environment.getDetailedPost(postId: Long): Post =
-    downloadDocument(postUrl(postId))
+    postUrl(postId)
+        .let(this::downloadDocument)
         .let(::parsePost)
         .let {
             it.copy(
