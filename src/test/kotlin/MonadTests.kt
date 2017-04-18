@@ -7,16 +7,20 @@ import java.lang.System.currentTimeMillis
 class MonadTests {
 
     @Test fun `test wrap try`() {
-        try_ { 1 / Math.random() }
+        doDangerOperation()
             .let { x ->
                 when (x) {
                     is Ok -> x.value
                     is Error -> {
                         x.exception.printStackTrace()
-                        -1.0
+                        -1
                     }
                 }
             }
+    }
+
+    private fun doDangerOperation(): Result<Int> = try_ {
+        if (Math.random() > 0.1) 0 else throw Exception("fail")
     }
 
     @Test fun `test async reader`() {
