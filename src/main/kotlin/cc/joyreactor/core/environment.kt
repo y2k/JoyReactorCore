@@ -1,5 +1,7 @@
 package cc.joyreactor.core
 
+import cc.joyreactor.core.UrlCreator.postUrl
+import cc.joyreactor.core.UrlCreator.tagsPath
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.net.URL
@@ -7,6 +9,21 @@ import java.net.URL
 /**
  * Created by y2k on 16/04/2017.
  **/
+
+fun Environment.get(source: Source, page: Int? = null): Posts =
+    tagsPath(source, page)
+        .let(this::downloadDocument)
+        .let(::getPostsWithNextPages)
+
+fun Environment.getDetailedPost(postId: Long): Post =
+    postUrl(postId)
+        .let(this::downloadDocument)
+        .let(::parsePost)
+        .let {
+            it.copy(
+                comments = it.comments.filterTop(),
+                attachments = it.attachments.take(3))
+        }
 
 class Environment {
 
