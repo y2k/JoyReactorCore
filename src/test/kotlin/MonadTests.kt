@@ -19,7 +19,7 @@ class MonadTests {
             }
     }
 
-    @Test fun `test monad`() {
+    @Test fun `test async reader`() {
         currentTimeMillisIO()
             .invoke(Unit) { x ->
                 println("" + x)
