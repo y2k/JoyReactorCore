@@ -14,11 +14,10 @@ internal fun parsePostsForTag(element: Element): List<Post> =
         .select("div.postContainer")
         .map(::parserSinglePost)
 
-internal fun parsePost(element: Element): Post {
-    return element
+internal fun parsePost(element: Element): Post =
+    element
         .first("div.postContainer")
         .let(::parserSinglePost)
-}
 
 private fun parserSinglePost(body: Element): Post =
     Post(tags = parseTagsInPost(body),
@@ -55,8 +54,8 @@ private fun normalizeUrl(link: String): String =
         .replace("(/full/).+(-\\d+\\.)".toRegex(), "$1$2")
         .replace("(/post/).+(-\\d+\\.)".toRegex(), "$1$2")
 
-private fun parseAttachments(document: Element): List<Attachment> {
-    return document
+private fun parseAttachments(document: Element): List<Attachment> =
+    document
         .first("div.post_top")
         .let {
             parserThumbnails(it)
@@ -64,14 +63,12 @@ private fun parseAttachments(document: Element): List<Attachment> {
                 .union(parseVideoThumbnails(it))
         }
         .map(::Attachment)
-}
 
-private fun Element.first(cssQuery: String): Element {
-    return select(cssQuery).first() ?: throw Exception("Can't find DOM for '$cssQuery'")
-}
+private fun Element.first(cssQuery: String): Element =
+    select(cssQuery).first() ?: throw Exception("Can't find DOM for '$cssQuery'")
 
-private fun parserThumbnails(element: Element): List<ImageRef> {
-    return element
+private fun parserThumbnails(element: Element): List<ImageRef> =
+    element
         .select("div.post_content img")
         .filter { it != null && it.hasAttr("width") }
         .filterNot { it.attr("height").endsWith("%") }
@@ -80,7 +77,6 @@ private fun parserThumbnails(element: Element): List<ImageRef> {
                 it.attr("width").toFloat() / it.attr("height").toFloat(),
                 getThumbnailImageLink(it))
         }
-}
 
 private fun getThumbnailImageLink(it: Element): String {
     fun hasFull(img: Element): Boolean = "a" == img.parent().tagName()
@@ -90,8 +86,8 @@ private fun getThumbnailImageLink(it: Element): String {
         it.attr("src").replace("(/post/).+(-\\d+\\.)".toRegex(), "$1$2")
 }
 
-private fun parseYoutubeThumbnails(element: Element): List<ImageRef> {
-    return element
+private fun parseYoutubeThumbnails(element: Element): List<ImageRef> =
+    element
         .select("iframe.youtube-player")
         .map {
             val m = SRC_PATTERN.matcher(it.attr("src"))
@@ -100,18 +96,16 @@ private fun parseYoutubeThumbnails(element: Element): List<ImageRef> {
                 it.attr("width").toFloat() / it.attr("height").toFloat(),
                 "http://img.youtube.com/vi/" + m.group(1) + "/0.jpg")
         }
-}
 
 private val SRC_PATTERN = Pattern.compile("/embed/([^?]+)")
-private fun parseVideoThumbnails(element: Element): List<ImageRef> {
-    return element
+private fun parseVideoThumbnails(element: Element): List<ImageRef> =
+    element
         .select("video[poster]")
         .map {
             ImageRef(
                 it.attr("width").toFloat() / it.attr("height").toFloat(),
                 element.select("span.video_gif_holder > a").first().attr("href").replace("(/post/).+(-)".toRegex(), "$1$2"))
         }
-}
 
 private fun parseComments(document: Element): List<Comment> {
     val postId = findNumber(document.id())

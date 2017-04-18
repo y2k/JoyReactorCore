@@ -26,3 +26,8 @@ internal fun List<Comment>.filterTop(): List<Comment> =
     filter { it.parentId == 0L && it.rating >= 0 }
         .sortedByDescending { it.rating }
         .take(10)
+
+internal fun limitComment(post: Post): Post =
+    post.copy(
+        comments = post.comments.filterTop(),
+        attachments = post.attachments.take(3))
