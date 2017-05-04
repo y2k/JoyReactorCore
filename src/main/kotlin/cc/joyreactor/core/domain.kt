@@ -1,5 +1,7 @@
 package cc.joyreactor.core
 
+import cc.joyreactor.core.Parsers.parseNewPageNumber
+import cc.joyreactor.core.Parsers.parsePostsForTag
 import org.jsoup.nodes.Document
 import java.net.URLEncoder
 

@@ -3,16 +3,19 @@ package cc.joyreactor.core
 import org.jsoup.nodes.Element
 import java.util.regex.Pattern
 
-internal fun parseNewPageNumber(document: Element): Int =
-    document
-        .select("a.next").first()
-        .attr("href").split('/').last()
-        .let(::findNumber).toInt()
+object Parsers {
 
-internal fun parsePostsForTag(element: Element): List<Post> =
-    element
-        .select("div.postContainer")
-        .map(::parserSinglePost)
+    fun parseNewPageNumber(document: Element): Int =
+        document
+            .select("a.next").first()
+            .attr("href").split('/').last()
+            .let(::findNumber).toInt()
+
+    fun parsePostsForTag(element: Element): List<Post> =
+        element
+            .select("div.postContainer")
+            .map(::parserSinglePost)
+}
 
 internal fun parsePost(element: Element): Post =
     element

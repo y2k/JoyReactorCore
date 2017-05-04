@@ -2,7 +2,7 @@ group 'cc.joyreactor'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.1'
+    ext.kotlin_version = '1.1.2-2'
 
     repositories {
         mavenCentral()
@@ -21,6 +21,9 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.jsoup:jsoup:1.10.2'
+
+    compile 'net.sourceforge.streamsupport:streamsupport-flow:1.5.4'
+    compile 'io.reactivex:rxjava:1.2.9'
 
     testCompile 'junit:junit:4.12'
 }
