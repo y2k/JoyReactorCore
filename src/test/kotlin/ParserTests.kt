@@ -1,5 +1,5 @@
+
 import cc.joyreactor.core.Parsers
-import cc.joyreactor.core.parsePost
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.junit.Assert.assertEquals
@@ -15,7 +15,7 @@ class ParserTests {
     }
 
     @Test fun `parse posts with 5 comments`() {
-        val post = parsePost(getHtml("post_with_5_comments.html"))
+        val post = Parsers.post(getHtml("post_with_5_comments.html"))
         assertEquals(5, post.comments.size)
     }
 }

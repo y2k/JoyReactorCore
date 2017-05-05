@@ -18,7 +18,7 @@ fun Environment.get(source: Source, page: Int? = null): Posts =
 fun Environment.getDetailedPost(postId: Long): Post =
     postUrl(postId)
         .let(this.download)
-        .let(::parsePost)
+        .let(Parsers::post)
         .let(::limitComment)
 
 class Environment(

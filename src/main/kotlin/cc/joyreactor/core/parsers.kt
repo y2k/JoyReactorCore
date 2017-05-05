@@ -5,8 +5,8 @@ import java.util.regex.Pattern
 
 object Parsers {
 
-    fun parseNewPageNumber(document: Element): Int =
-        document
+    fun parseNewPageNumber(element: Element): Int =
+        element
             .select("a.next").first()
             .attr("href").split('/').last()
             .let(::findNumber).toInt()
@@ -15,12 +15,13 @@ object Parsers {
         element
             .select("div.postContainer")
             .map(::parserSinglePost)
-}
 
-internal fun parsePost(element: Element): Post =
-    element
-        .first("div.postContainer")
-        .let(::parserSinglePost)
+
+    fun post(element: Element): Post =
+        element
+            .first("div.postContainer")
+            .let(::parserSinglePost)
+}
 
 private fun parserSinglePost(body: Element): Post =
     Post(tags = parseTagsInPost(body),
