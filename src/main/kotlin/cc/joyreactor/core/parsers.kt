@@ -5,6 +5,37 @@ import java.util.regex.Pattern
 
 object Parsers {
 
+    fun profile(document: Element) = Profile(
+        document.select("div.sidebarContent > div.user > span").text(),
+        ImageRef(1f, document.select("div.sidebarContent > div.user > img").attr("src")),
+        document.select("#rating-text > b").text().replace(" ", "").toFloat(),
+        document.select(".star-row-0 > .star-0").size,
+        getProgressToNewStar(document),
+        getSubRatings(document),
+        getAwards(document))
+
+    private fun getProgressToNewStar(document: Element): Float {
+        val style = document.select("div.stars div.poll_res_bg_active").first().attr("style")
+        val m = Pattern.compile("width:(\\d+)%;").matcher(style)
+        if (!m.find()) throw IllegalStateException()
+        return java.lang.Float.parseFloat(m.group(1))
+    }
+
+    private fun getSubRatings(document: Element): List<Profile.SubRating> =
+        document
+            .select("div.blogs tr")
+            .filter { !it.select("small").isEmpty() }
+            .map {
+                Profile.SubRating(
+                    "\\d[\\d\\. ]*".toRegex().find(it.select("small").text())!!.value.replace(" ", "").toFloat(),
+                    it.select("img").attr("alt"))
+            }
+
+    private fun getAwards(document: Element): List<Profile.Award> =
+        document
+            .select("div.award_holder > img")
+            .map { Profile.Award(it.absUrl("src"), it.attr("alt")) }
+
     fun parseNewPageNumber(element: Element): Int =
         element
             .select("a.next").first()

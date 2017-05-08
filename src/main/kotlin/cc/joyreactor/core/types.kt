@@ -6,6 +6,24 @@ import java.util.*
  * Created by y2k on 31/03/2017.
  **/
 
+class Profile(
+    val userName: String,
+    val userImage: ImageRef,
+    val rating: Float,
+    val stars: Int,
+    val progressToNewStar: Float,
+    val subRatings: List<SubRating>,
+    val awards: List<Award>) {
+
+    data class SubRating(
+        val rating: Float,
+        val tag: String)
+
+    data class Award(
+        val image: String,
+        val title: String)
+}
+
 sealed class Source
 
 object FeaturedSource : Source()
