@@ -44,6 +44,10 @@ class Message(
 class Posts(val posts: List<Post>, val nextPage: Int?)
 
 data class Post(
+    val userName: String,
+    val userImage: ImageRef,
+    val rating: Float,
+    val created: Long,
     val tags: List<String>,
     val id: Long,
     val title: String?,

@@ -55,12 +55,28 @@ object Parsers {
 }
 
 private fun parserSinglePost(body: Element): Post =
-    Post(tags = parseTagsInPost(body),
+    Post(
+        userImage = ImageRef(1f, body.select("div.uhead_nick > img").attr("src")),
+        userName = body.select("div.uhead_nick > a").text(),
+        rating = getRating(body),
+        created = getCreated(body),
+        tags = parseTagsInPost(body),
         id = findNumber(body.id()),
         title = body.select("div.post_content > div > h3").first()?.text(),
         image = queryImage(body),
         attachments = parseAttachments(body),
         comments = parseComments(body))
+
+private fun getRating(element: Element): Float {
+    val e = element.select("span.post_rating > span").first()
+    val m = RATING_REGEX.matcher(e.text())
+    return if (m.find()) java.lang.Float.parseFloat(m.group()) else 0f
+}
+
+private fun getCreated(element: Element): Long {
+    val e = element.select("span.date > span")
+    return 1000L * java.lang.Long.parseLong(e.attr("data-time"))
+}
 
 private fun parseTagsInPost(body: Element): List<String> =
     body.select(".taglist a").map { it.text() }
@@ -160,3 +176,5 @@ private fun parseComments(document: Element): List<Comment> {
     }
     return comments
 }
+
+private val RATING_REGEX = Pattern.compile("[\\d\\.]+")
