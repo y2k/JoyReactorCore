@@ -5,6 +5,15 @@ import java.util.regex.Pattern
 
 object Parsers {
 
+    fun readingTags(document: Element): List<Tag> =
+        document
+            .select("h2.sideheader")
+            .filter { it.text() == "Читает" }
+            .flatMap { it.nextElementSibling().children() }
+            .map {
+                Tag(it.text(), "http://img0.reactor.cc/pics/avatar/tag/13714")
+            }
+
     fun profile(document: Element) = Profile(
         document.select("div.sidebarContent > div.user > span").text(),
         ImageRef(1f, document.select("div.sidebarContent > div.user > img").attr("src")),

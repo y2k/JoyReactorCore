@@ -6,6 +6,10 @@ import java.util.*
  * Created by y2k on 31/03/2017.
  **/
 
+class Tag(
+    val name: String,
+    val image: String)
+
 class Profile(
     val userName: String,
     val userImage: ImageRef,
