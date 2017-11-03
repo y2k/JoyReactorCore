@@ -10,9 +10,12 @@ object Parsers {
             .select("h2.sideheader")
             .filter { it.text() == "Читает" }
             .flatMap { it.nextElementSibling().children() }
-            .map {
-                Tag(it.text(), "http://img0.reactor.cc/pics/avatar/tag/13714")
-            }
+            .map { Tag(it.text(), resolveTagImage(it)) }
+
+    private fun resolveTagImage(it: Element) =
+        TagResolver.tryGetImageId(TagResolver.tagIcons, it.text())
+            .mapOption { "http://img1.joyreactor.cc/pics/avatar/tag/$it" }
+            ?: "http://img0.joyreactor.cc/images/default_avatar.jpeg"
 
     fun profile(document: Element) = Profile(
         document.select("div.sidebarContent > div.user > span").text(),
