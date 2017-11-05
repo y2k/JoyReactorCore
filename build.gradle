@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.jsoup:jsoup:1.10.2'
+    compile 'org.jsoup:jsoup:1.11.1'
 
     compile 'net.sourceforge.streamsupport:streamsupport-flow:1.5.4'
     compile 'io.reactivex:rxjava:1.2.9'
