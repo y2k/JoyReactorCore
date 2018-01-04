@@ -1,9 +1,38 @@
 package cc.joyreactor.core
 
 import org.jsoup.nodes.Element
+import java.util.*
 import java.util.regex.Pattern
 
 object Parsers {
+
+    fun getMessages(document: Element): Pair<List<Message>, String?> {
+        val messages = document
+            .select("div.messages_wr > div.article")
+            .map {
+                val username = it.select("div.mess_from > a").text()
+                Message(
+                    text = it.select("div.mess_text").text(),
+                    date = 1000 * it.select("span[data-time]").attr("data-time").toLong(),
+                    isMine = it.select("div.mess_reply").isEmpty(),
+                    userName = username,
+                    userImage = getUserImage(username))
+            }
+
+        val nextPage = document
+            .select("a.next")
+            .first()
+            ?.attr("href")
+
+        return messages to nextPage
+    }
+
+    private fun getUserImage(name: String): String {
+        val id = TagResolver.tryGetImageId(TagResolver.userIcons, name)
+        return if (id == null)
+            "http://img0.joyreactor.cc/images/default_avatar.jpeg"
+        else "http://img0.joyreactor.cc/pics/avatar/user/" + id
+    }
 
     fun readingTags(document: Element): List<Tag> =
         document

@@ -1,7 +1,5 @@
 package cc.joyreactor.core
 
-import java.util.*
-
 /**
  * Created by y2k on 31/03/2017.
  **/
@@ -10,7 +8,7 @@ class Tag(
     val name: String,
     val image: String)
 
-class Profile(
+data class Profile(
     val userName: String,
     val userImage: ImageRef,
     val rating: Float,
@@ -34,16 +32,12 @@ object FeaturedSource : Source()
 class TagSource(val name: String) : Source()
 class Favorite(val user: String) : Source()
 
-class Thread(
-    val user: String,
-    val message: String,
-    val image: ImageRef,
-    val date: Date)
-
 class Message(
+    val text: String,
+    val date: Long,
     val isMine: Boolean,
-    val message: String,
-    val date: Date)
+    val userName: String,
+    val userImage: String)
 
 class Posts(val posts: List<Post>, val nextPage: Int?)
 
