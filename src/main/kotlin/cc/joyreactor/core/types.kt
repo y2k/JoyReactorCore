@@ -62,7 +62,8 @@ class Comment(
     val rating: Float,
     val parentId: Long,
     val image: ImageRef,
-    val text: String)
+    val text: String,
+    val userName: String)
 
 data class ImageRef(
     val aspect: Float,

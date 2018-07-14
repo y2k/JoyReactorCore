@@ -2,7 +2,7 @@ group 'cc.joyreactor'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.51'
 
     repositories {
         mavenCentral()

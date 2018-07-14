@@ -88,7 +88,6 @@ object Parsers {
             .select("div.postContainer")
             .map(::parserSinglePost)
 
-
     fun post(element: Element): Post =
         element
             .first("div.postContainer")
@@ -206,13 +205,15 @@ private fun parseComments(document: Element): List<Comment> {
         val parent = node.parent()
         val parentId = if ("comment_list" == parent.className()) findNumber(parent.id()) else 0
 
+        val userImg = node.select("img.avatar")
         val comment = Comment(
             text = node.select("div.txt > div").first().text(),
-            image = ImageRef(1f, node.select("img.avatar").attr("src")),
+            image = ImageRef(1f, userImg.attr("src")),
             parentId = parentId,
             rating = node.select("span.comment_rating").text().trim { it <= ' ' }.toFloat(),
             postId = postId,
-            id = (node.select("span.comment_rating").attr("comment_id")).toLong())
+            id = (node.select("span.comment_rating").attr("comment_id")).toLong(),
+            userName = userImg.attr("alt"))
         comments.add(comment)
     }
     return comments

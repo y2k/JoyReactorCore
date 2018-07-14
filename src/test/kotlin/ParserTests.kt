@@ -1,3 +1,4 @@
+
 import cc.joyreactor.core.ImageRef
 import cc.joyreactor.core.Message
 import cc.joyreactor.core.Parsers
@@ -98,6 +99,11 @@ class ParserTests {
     @Test
     fun `parse posts with 5 comments`() {
         val post = Parsers.post(getHtml("post_with_5_comments.html"))
+
+        assertEquals(
+            listOf("Pinguin", "WRZESZCZ", "Diablero", "LYVrus", "Cobold"),
+            post.comments.map { it.userName })
+
         assertEquals(5, post.comments.size)
     }
 }
