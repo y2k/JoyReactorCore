@@ -63,7 +63,8 @@ class Comment(
     val parentId: Long,
     val image: ImageRef,
     val text: String,
-    val userName: String)
+    val userName: String,
+    val attachments: List<Attachment>)
 
 data class ImageRef(
     val aspect: Float,

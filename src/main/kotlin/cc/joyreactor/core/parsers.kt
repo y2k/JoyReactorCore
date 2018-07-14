@@ -213,10 +213,19 @@ private fun parseComments(document: Element): List<Comment> {
             rating = node.select("span.comment_rating").text().trim { it <= ' ' }.toFloat(),
             postId = postId,
             id = (node.select("span.comment_rating").attr("comment_id")).toLong(),
-            userName = userImg.attr("alt"))
+            userName = userImg.attr("alt"),
+            attachments = parseCommentAttachments(node))
         comments.add(comment)
     }
     return comments
 }
+
+fun parseCommentAttachments(node: Element): List<Attachment> =
+    node.select("div.image img")
+        .map {
+            Attachment(ImageRef(
+                it.attr("width").toFloat() / it.attr("height").toFloat(),
+                normalizeUrl(it.attr("src"))))
+        }
 
 private val RATING_REGEX = Pattern.compile("[\\d\\.]+")

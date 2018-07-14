@@ -1,4 +1,3 @@
-
 import cc.joyreactor.core.ImageRef
 import cc.joyreactor.core.Message
 import cc.joyreactor.core.Parsers
@@ -104,7 +103,30 @@ class ParserTests {
             listOf("Pinguin", "WRZESZCZ", "Diablero", "LYVrus", "Cobold"),
             post.comments.map { it.userName })
 
+        assertEquals(
+            listOf(emptyList(), emptyList(), emptyList(),
+                listOf(ImageRef(
+                    290f / 245f,
+                    "http://img0.joyreactor.cc/pics/comment/-2583972.gif"
+                ))
+                , emptyList()),
+            post.comments.map { it.attachments.map { it.image } })
+
         assertEquals(5, post.comments.size)
+    }
+
+    @Test
+    fun `parse posts with image in comments`() {
+        val post = Parsers.post(getHtml("post_with_image_in_comments.html"))
+
+        assertEquals(
+            listOf(emptyList(), emptyList(), emptyList(), emptyList(), emptyList(), emptyList(),
+                listOf(ImageRef(
+                    1f,
+                    "http://img1.joyreactor.cc/pics/comment/-3039289.jpeg"
+                ))
+                , emptyList()),
+            post.comments.map { it.attachments.map { it.image } })
     }
 }
 
