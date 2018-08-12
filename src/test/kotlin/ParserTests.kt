@@ -5,8 +5,8 @@ import cc.joyreactor.core.Profile
 import cc.joyreactor.core.Profile.SubRating
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 /**
@@ -15,9 +15,19 @@ import org.junit.Test
 class ParserTests {
 
     @Test
-    fun `parse profile is success`() {
+    fun `parse small_favorite should success`() {
+        val element = getHtml("small_favorite.html")
+
+        val actual = Parsers.parsePostsForTag(element)
+        assertEquals(1, actual.size)
+
+        assertNull(Parsers.parseNewPageNumber(element))
+    }
+
+    @Test
+    fun `parse profile should success`() {
         val actual = Parsers.profile(getHtml("profile.html"))
-        Assert.assertEquals(
+        assertEquals(
             Profile(
                 userName = "_y2k",
                 userImage = ImageRef(1f, "http://img1.joyreactor.cc/pics/avatar/user/331291"),
@@ -36,14 +46,14 @@ class ParserTests {
     }
 
     @Test
-    fun `parse messages from first page is success`() {
+    fun `parse messages from first page should success`() {
         val (messages, nextPage) = Parsers.getMessages(getHtml("messages_first.html"))
 
-        Assert.assertEquals("/private/list/2", nextPage)
-        Assert.assertEquals(20, messages.size)
-        Assert.assertEquals(10, messages.filter(Message::isMine).size)
+        assertEquals("/private/list/2", nextPage)
+        assertEquals(20, messages.size)
+        assertEquals(10, messages.filter(Message::isMine).size)
 
-        Assert.assertEquals(
+        assertEquals(
             listOf(
                 "http://img0.joyreactor.cc/pics/avatar/user/331291",
                 "http://img0.joyreactor.cc/pics/avatar/user/331291",
@@ -69,14 +79,14 @@ class ParserTests {
     }
 
     @Test
-    fun `parse messages from last page is success`() {
+    fun `parse messages from last page should success`() {
         val (messages, nextPage) = Parsers.getMessages(getHtml("messages_last.html"))
 
-        Assert.assertEquals(null, nextPage)
-        Assert.assertEquals(3, messages.size)
-        Assert.assertEquals(0, messages.filter(Message::isMine).size)
+        assertEquals(null, nextPage)
+        assertEquals(3, messages.size)
+        assertEquals(0, messages.filter(Message::isMine).size)
 
-        Assert.assertEquals(
+        assertEquals(
             listOf(
                 "http://img0.joyreactor.cc/pics/avatar/user/331291",
                 "http://img0.joyreactor.cc/pics/avatar/user/331291",
@@ -87,7 +97,7 @@ class ParserTests {
     @Test
     fun `reading tags`() {
         val actual = Parsers.readingTags(getHtml("tags_test.html"))
-        Assert.assertEquals(36, actual.size)
+        assertEquals(36, actual.size)
     }
 
     @Test

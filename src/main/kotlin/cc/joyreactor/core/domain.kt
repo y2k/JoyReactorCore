@@ -23,7 +23,7 @@ object JoyReactor {
 }
 
 sealed class CommentConfig
-class AllComments : CommentConfig()
+object AllComments : CommentConfig()
 class TopComments(val limit: Int) : CommentConfig()
 
 internal object UrlCreator {

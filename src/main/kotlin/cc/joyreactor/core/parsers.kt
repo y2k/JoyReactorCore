@@ -68,7 +68,7 @@ object Parsers {
             .filter { !it.select("small").isEmpty() }
             .map {
                 Profile.SubRating(
-                    "\\d[\\d\\. ]*".toRegex().find(it.select("small").text())!!.value.replace(" ", "").toFloat(),
+                    "\\d[\\d. ]*".toRegex().find(it.select("small").text())!!.value.replace(" ", "").toFloat(),
                     it.select("img").attr("alt"))
             }
 
@@ -77,11 +77,12 @@ object Parsers {
             .select("div.award_holder > img")
             .map { Profile.Award(it.absUrl("src"), it.attr("alt")) }
 
-    fun parseNewPageNumber(element: Element): Int =
-        element
-            .select("a.next").first()
-            .attr("href").split('/').last()
-            .let(::findNumber).toInt()
+    fun parseNewPageNumber(element: Element): Int? {
+        fun extractPageFromHref(it: Element) = it
+            .attr("href").split('/')
+            .last().let(::findNumber).toInt()
+        return element.select("a.next").first()?.let(::extractPageFromHref)
+    }
 
     fun parsePostsForTag(element: Element): List<Post> =
         element
